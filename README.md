@@ -27,9 +27,9 @@
 
 #### Clone repo
 
-```bash
-git clone https://github.com/tankibaj/EC2-EFS-Nginx-Cloudinit-Terraform.git && cd EC2-EFS-Nginx-Cloudinit-Terraform
-```
+  ```bash
+  git clone https://github.com/tankibaj/EC2-EFS-Nginx-Cloudinit-Terraform.git && cd EC2-EFS-Nginx-Cloudinit-Terraform
+  ```
 
 <br/>
 
