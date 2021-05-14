@@ -1,0 +1,33 @@
+#cloud-config
+
+# |- Set timezone 
+timezone: Europe/Berlin
+
+# |- Update /etc/hosts
+manage_etc_hosts: true
+
+# |- Update hostname and fqdn
+hostname: ${HOSTNAME}
+
+# |-Update apt database on first boot | Default: true
+package_update: true
+
+# |- Upgrade the instance on first boot | Default: false
+package_upgrade: false
+
+# |- Install additioanl packages on first boot | Default: non
+packages:
+    - nginx
+    - nfs-common
+
+# |- Run arbitrary commands. Each item can be either a list or a string. All commands must be proper yaml
+runcmd:
+  - export MOUNT_LOCATION="/mnt/efs"
+  - export MOUNT_TARGET="${EFS_DNS}"
+  - mkdir -p $MOUNT_LOCATION
+  - sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $MOUNT_TARGET:/ $MOUNT_LOCATION
+  - echo ${EFS_DNS}:/ $MOUNT_LOCATION nfs4 defaults,_netdev 0 0  | cat >> /etc/fstab
+  - chmod 777 /mnt/efs/
+  - bash -c 'echo "Hello World!" > /mnt/efs/index.html'
+  - sed -i 's|root /var/www/html;|root /mnt/efs;|g' /etc/nginx/sites-available/default
+  - systemctl restart nginx
