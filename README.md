@@ -38,7 +38,7 @@
 - Modify `variables.tf` for desire settings. Mainly  `variable "key_name"` (line 21) to set your ssh key for the ec2 instance.
 
   ```
-  vim variable.tf
+  vim variables.tf
   ```
 
 - Prepare your working directory for other terrafrom commands.
